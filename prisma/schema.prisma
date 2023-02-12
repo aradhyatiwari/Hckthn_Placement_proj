@@ -15,7 +15,7 @@ model Employer {
   name      String
   skills    String[]
   vacancies Int
-  Sector    String?
+  sector    String?
   date      DateTime?
   desc      String
 }
