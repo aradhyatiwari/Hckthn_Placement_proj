@@ -15,33 +15,64 @@ class Basic {
     }
     // Get data from database
     async gett(what, qry) {
-
+        let resp = {};
         try {
             let clause = new Basic()
-            if (what == "student") {
+            if (what === "student") {
                 await prisma.$connect();
-                await prisma.student.findmany({
+                resp = await prisma.student.findMany({
                     where: clause.qry(qry)
+
                 }
                 )
-            }
-            if (what == "employer") {
-                await prisma.$connect();
-                await prisma.employer.findmany({
-                    where: clause.qry(qry)
-                })
-            }
-            if (what == "skills") {
-                await prisma.$connect();
-                await prisma.skills.findmany({
-                    where: clause.qry(qry)
-                })
-            }
+                console.log("inside that func")
 
+            }
+            else if (what == "employer") {
+                await prisma.$connect();
+                resp = await prisma.employer.findMany({
+                    where: clause.qry(qry)
+                })
+            }
+            else {
+                resp = { name: "Bhapp Chomu Sahi Request mar" }
+            }
             await prisma.$disconnect()
+            return resp
         } catch (e) {
             console.log("Error Getting Data from server ====>" + e);
         }
+    }
+
+
+    // Put data into database
+    async putt(what, dta) {
+        let insert
+        try {
+            await prisma.$connect()
+
+            if (what == "student") {
+                insert = await prisma.student.create({
+                    data: dta,
+                })
+            }
+            else if (what == "employee") {
+                insert = await prisma.employer.create({
+                    data: dta,
+                })
+            }
+            else {
+                insert = { error: "Choose correct table :-(" }
+            }
+            await prisma.$disconnect()
+
+
+            return insert
+        } catch (e) {
+            await prisma.$disconnect()
+            console.log("----------->" + e)
+        }
+
     }
 }
 export default Basic

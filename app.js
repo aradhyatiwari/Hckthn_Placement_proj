@@ -10,14 +10,19 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 
-app.get('/insert/:into', (req, res) => {
+app.post('/insert/:what', async (req, res) => {
     let insertt = new Basic()
-    insertt.gett(req.query.into, req.body)
+    insertt.putt(req.params.what, req.body)
+    console.log("Done")
+    res.send("resp")
 })
-app.get("/fetch", (req, res) => {
-    console.log(req.body)
+app.get("/fetch/:what", async (req, res) => {
+    let getData = new Basic()
+    let resp = await getData.gett(req.params.what, req.body)
+    console.log(req.params.what)
+    res.send(resp)
 
 })
-app.listen(8000, () => {
+app.listen(8001, () => {
     console.log("Server Running")
 })

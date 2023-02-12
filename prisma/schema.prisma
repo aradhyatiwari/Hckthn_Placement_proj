@@ -13,7 +13,7 @@ datasource db {
 model Employer {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  skills    Skills[]
+  skills    String[]
   vacancies Int
   Sector    String?
   date      DateTime?
@@ -25,16 +25,7 @@ model Student {
   name   String
   course String
   cgpa   Float
-  skills Skills[]
+  skills String[]
   placed Boolean
   resume String?
-}
-
-model Skills {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  Employer   Employer? @relation(fields: [employerId], references: [id])
-  employerId String?   @db.ObjectId
-  Student    Student?  @relation(fields: [studentId], references: [id])
-  studentId  String?   @db.ObjectId
 }
